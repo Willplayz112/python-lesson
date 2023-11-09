@@ -1,0 +1,49 @@
+import os
+import time
+from datetime import datetime
+
+# Get the lesson number from the user
+lesson_number = input("Enter the lesson number(IF DOUBLE LESSON ADD 1): ")
+
+# Define log-out times for lessons 1 through 5 (in HH:MM format)
+lesson_logout_times = {
+    "1": "9:50",
+    "2": "10:40",
+    "3": "11:50",
+    "4": "12:40",
+    "5": "14:30",
+}
+
+# Define the shutdown time for lesson 6
+lesson6_shutdown_time = "15:10"
+
+# Get the current system time
+current_time = datetime.now().strftime("%H:%M")
+
+# Check if the lesson number is 1, 2, 3, 4, or 5
+if lesson_number in lesson_logout_times:
+    # Get the specified log-out time for the lesson
+    logout_time = lesson_logout_times[lesson_number]
+
+    # Check if the current time is greater than or equal to the log-out time
+    if current_time >= logout_time:
+        print("Logging out...")
+        os.system("shutdown -l")  # Log out
+    else:
+        print(f"Log out scheduled for {logout_time}")
+
+# Check if the lesson number is 6
+elif lesson_number == "6":
+    # Check if the current time is greater than or equal to the shutdown time
+    if current_time >= lesson6_shutdown_time:
+        print("Shutting down...")
+        time.sleep(5)  # Wait for 5 seconds before shutting down (you can change this time)
+        os.system("shutdown /s /t 1")  # Shutdown the computer after a 1-second delay
+    else:
+        print(f"Shutdown scheduled for {lesson6_shutdown_time}")
+
+else:
+    print("No action specified for this lesson.")
+
+# Wait for the user to press Enter before exiting
+input("Press Enter to exit...")
